@@ -6,6 +6,7 @@ public class Seek : SteeringBehaviour
 {
     [SerializeField] private List<Transform> m_Targets;
 
+    [SerializeField]
     private bool m_PercieveUnitsGlobally = true;
 
     public override Vector3 CalculateSteeringBehaviour()

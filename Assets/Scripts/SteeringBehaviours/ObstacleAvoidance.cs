@@ -57,7 +57,7 @@ public class ObstacleAvoidance : SteeringBehaviour
     /// <summary>
     /// Calculates optimal direction 
     /// </summary>
-    /// <returns>best dir scaled by the magnitude when heading to obstacle</returns>
+    /// <returns>best dir scaled by the magnitude</returns>
     private Vector3 CalculateBestDirGrounded()
     {
         if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, m_ObstaclePerceptionRange, m_ObstacleLayer))
@@ -88,8 +88,8 @@ public class ObstacleAvoidance : SteeringBehaviour
             // if ray hits nothing
             if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
             {
-                m_PrevBestDir = dir.normalized;
-                return m_PrevBestDir;
+                m_PrevBestDir = dir;
+                return dir;
             }
             obstacles.Add(hit);
         }
@@ -103,7 +103,6 @@ public class ObstacleAvoidance : SteeringBehaviour
                 best = obstacles[i];
             }
         }
-        Debug.DrawRay(m_RayCastLocation.position, (best.point - m_RayCastLocation.position).normalized * m_ObstaclePerceptionRange, Color.red);
         return (best.point - m_RayCastLocation.position);
     }
 
@@ -137,7 +136,6 @@ public class ObstacleAvoidance : SteeringBehaviour
 
                 if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
                 {
-                    Debug.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange, Color.red);
                     return m_PrevBestDir.normalized;
                 }
 
@@ -145,8 +143,8 @@ public class ObstacleAvoidance : SteeringBehaviour
                 if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
                 {
                     Debug.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange);
-                    m_PrevBestDir = dir.normalized;
-                    return dir.normalized;
+                    m_PrevBestDir = dir;
+                    return dir;
                 }
 
                 obstacles.Add(hit);
@@ -156,12 +154,8 @@ public class ObstacleAvoidance : SteeringBehaviour
         // find the ray with the longest distance
         for (int i = 1; i < obstacles.Count; i++)
         {
-            //if ((obstacles[i].point - transform.position).sqrMagnitude + 0.1f > (best.point - transform.position).sqrMagnitude)
-            //{
-            //    best = obstacles[i];
-            //}
-
-            if ((obstacles[i].point - transform.position).sqrMagnitude + 1f > (m_PrevBestDir * m_ObstaclePerceptionRange - transform.position).sqrMagnitude)
+            if ((obstacles[i].point - transform.position).sqrMagnitude + 1f > 
+                (m_PrevBestDir * m_ObstaclePerceptionRange - transform.position).sqrMagnitude)
             {
                 best = obstacles[i].point;
             }

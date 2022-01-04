@@ -14,9 +14,7 @@ public class RestrictEdges : MonoBehaviour
     {
         if (m_AdjustToCameraBounds)
         {
-            Vector2 left = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
             Vector2 right = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
-            Vector2 up = Camera.main.ViewportToWorldPoint(new Vector2(0, 1));
 
             m_Edges.x = right.x;
             m_Edges.y = Camera.main.orthographicSize;
@@ -28,7 +26,6 @@ public class RestrictEdges : MonoBehaviour
         float x = transform.position.x;
         float z = transform.position.z;
 
-
         if (x < -m_Edges.x)
             transform.position = new Vector3(m_Edges.x, 0, z);
         if (x > m_Edges.x)
@@ -37,6 +34,5 @@ public class RestrictEdges : MonoBehaviour
             transform.position = new Vector3(x, 0, m_Edges.y);
         if (z > m_Edges.y)
             transform.position = new Vector3(x, 0, -m_Edges.y);
-
     }
 }

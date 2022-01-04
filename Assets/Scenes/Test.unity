@@ -321,7 +321,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BehaviourWeigth: 1
-  m_PercieveUnitsGlobally: 1
   m_Debug: 0
   m_RayCastLocation: {fileID: 1666646496}
   m_ObstaclePerceptionRange: 30
@@ -335,6 +334,60 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2121204565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &742744324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742744318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a70d6647929644ea1ae3a860311148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BehaviourWeigth: 1
+  m_Debug: 0
+--- !u!114 &742744325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742744318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 616df3473177823499bc49314cbb7e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BehaviourWeigth: 1
+  m_Debug: 0
+--- !u!114 &742744326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742744318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1ab0a40967ee74cb4913ed8e9facce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BehaviourWeigth: 1
+  m_Debug: 0
+--- !u!114 &742744327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742744318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5e71350f8306747bead5716d4143d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &804083187
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,7 +487,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-7642
+  m_Name: pb_Mesh-246532
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -621,6 +674,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 742744323}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1960483874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1960483876}
+  - component: {fileID: 1960483875}
+  m_Layer: 0
+  m_Name: PossionDisc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1960483875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960483874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef43edf3804fb7e43a6f8ecb7cc7aace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GridSize: {x: 10, y: 10}
+  m_Preab: {fileID: 3366951884306628400, guid: c5ffc8d7f0792c144b04f6bcf3da4d8f, type: 3}
+  m_PointSize: 10
+  m_StepCount: 5
+  m_Debug: 1
+--- !u!4 &1960483876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960483874}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6800003, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2121204565
 PrefabInstance:

@@ -4,8 +4,10 @@ using UnityEngine;
 public class Flee : SteeringBehaviour
 {
     // targets to flee from
+    [SerializeField]
     private Transform[] m_Targets;
 
+    [SerializeField]
     private bool m_PercieveUnitsGlobally = true;
 
     public override Vector3 CalculateSteeringBehaviour()

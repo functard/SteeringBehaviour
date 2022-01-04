@@ -6,6 +6,9 @@ public class Motor : MonoBehaviour
 
     private FieldOfView m_Fov;
 
+    [SerializeField]
+    private bool m_Debug;
+
     public FieldOfView Fov { get { return m_Fov; } }
 
     private Vector3 m_Velocity = Vector3.zero;
@@ -58,7 +61,8 @@ public class Motor : MonoBehaviour
             else
             {
                 float random = Random.Range(0, 360);
-                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, random, transform.rotation.eulerAngles.z);
+                transform.rotation
+                = Quaternion.Euler(transform.rotation.eulerAngles.x, random, transform.rotation.eulerAngles.z);
             }
         }
     }
@@ -75,7 +79,6 @@ public class Motor : MonoBehaviour
 
         m_Velocity = Vector3.ClampMagnitude(m_Velocity, m_MaxSpeed);
 
-        Debug.Log(m_Velocity.magnitude);
         transform.position += m_Velocity * Time.deltaTime;
         SetDirection();
     }
@@ -105,5 +108,16 @@ public class Motor : MonoBehaviour
     {
         if (m_Velocity != Vector3.zero && m_Velocity.magnitude >= 0.2f)
             transform.forward = Vector3.SmoothDamp(transform.forward, m_Velocity, ref m_TurnRateVel, m_TurnRate);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (m_Debug)
+        {
+            if (this == null)
+                return;
+
+            Gizmos.DrawRay(transform.position, m_Velocity);
+        }
     }
 }

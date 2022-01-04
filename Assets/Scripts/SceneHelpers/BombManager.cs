@@ -10,6 +10,7 @@ public class BombManager : MonoBehaviour
     [SerializeField] private float m_ExplosionRadius = 10f;
     [SerializeField] private float m_RandomExplosionRange = 10f;
     [SerializeField] private float m_ExplosionForce = 200f;
+    [SerializeField] private bool m_2D = true;
 
     private Camera m_Cam;
 
@@ -19,10 +20,18 @@ public class BombManager : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(SpawnRandomExplosions());
+        //StartCoroutine(SpawnRandomExplosions());
     }
     private void Update()
     {
+        if (m_2D)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Explosion(mouseWorldPos);
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Ray ray = m_Cam.ScreenPointToRay(Input.mousePosition);
