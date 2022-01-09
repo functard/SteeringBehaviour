@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PathFollowing : SteeringBehaviour
@@ -7,8 +5,6 @@ public class PathFollowing : SteeringBehaviour
     [SerializeField] private bool m_Loop;
 
     [SerializeField] private Path m_PathNodes;
-
-    private Path m_LocalPath;
 
     [SerializeField] private float m_ReachDistTreshold = 7.5f;
 
@@ -20,25 +16,25 @@ public class PathFollowing : SteeringBehaviour
 
     private int m_PathIndex = 0;
 
-    private void Start()
-    {
-        m_LocalPath = m_PathNodes;
-    }
 
     // TODO : remove path creation logic from this class
     public override Vector3 CalculateSteeringBehaviour()
     {
-        if (m_LocalPath.GetPath().Count == 0 || (m_IsCompleted && !m_Loop))
+        if (m_PathNodes.GetPath().Count == 0 || (m_IsCompleted && !m_Loop))
+        {
+            Debug.Log("asd0");
             return Vector3.zero;
+        }
 
-        Vector3 currPathNode = m_LocalPath.GetNodeAt(m_PathIndex);
+        Vector3 currPathNode = m_PathNodes.GetNodeAt(m_PathIndex);
 
         float sqrDist = (currPathNode - transform.position).sqrMagnitude;
         if (sqrDist * sqrDist < m_ReachDistTreshold)
         {
             m_PathIndex++;
+            Debug.Log("reached");
         }
-        if (m_PathIndex >= m_LocalPath.GetPath().Count)
+        if (m_PathIndex >= m_PathNodes.GetPath().Count)
         {
             m_PathIndex = 0;
             m_LapCount++;
@@ -47,10 +43,10 @@ public class PathFollowing : SteeringBehaviour
                 m_PathNodes.CreateRandomPath();
 
             if (m_LapCount % 2 == 1)
-                m_LocalPath.GetPath().Reverse();
+                m_PathNodes.GetPath().Reverse();
         }
-
-        return Seek(m_LocalPath.GetNodeAt(m_PathIndex));
+        Debug.Log(m_PathIndex);
+        return Seek(m_PathNodes.GetNodeAt(m_PathIndex));
     }
 
     private Vector3 Seek(Vector3 _target)

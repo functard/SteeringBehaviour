@@ -23,6 +23,7 @@ public class ObstacleAvoidance : SteeringBehaviour
     }
     public override Vector3 CalculateSteeringBehaviour()
     {
+        CalculateBestDirFlying();
         if (!SteeringMotor.Is3D)
         {
             if (IsHeadingObstacle())
@@ -83,6 +84,7 @@ public class ObstacleAvoidance : SteeringBehaviour
             Vector3 dir = new Vector3(x, 0, z);
 
             Ray ray = new Ray(m_RayCastLocation.position, dir.normalized);
+
             RaycastHit hit;
 
             // if ray hits nothing
@@ -111,7 +113,8 @@ public class ObstacleAvoidance : SteeringBehaviour
         List<RaycastHit> obstacles = new List<RaycastHit>();
 
         float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;
-        float angleIncrement = Mathf.PI * 2 * goldenRatio;
+        float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
+        float angleIncrement = /*Mathf.PI * 2*/ (Mathf.Deg2Rad * viewAngle) * goldenRatio;
 
         for (int i = 0; i < m_RayCount; i++)
         {
@@ -125,26 +128,25 @@ public class ObstacleAvoidance : SteeringBehaviour
 
             Vector3 dir = new Vector3(x, y, z) * m_ObstaclePerceptionRange;
 
-            float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
 
             // TO DO : optimize angle check
-            if (Vector3.Angle(dir, transform.forward) < viewAngle / 2)
+            //if (Vector3.Angle(dir, transform.forward) < viewAngle / 2)
             {
                 Ray ray = new Ray(m_RayCastLocation.position, dir.normalized);
                 RaycastHit hit;
 
 
-                if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
-                {
-                    return m_PrevBestDir.normalized;
-                }
+                //if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
+                //{
+                //    return m_PrevBestDir.normalized;
+                //}
 
                 // if ray hits nothing
                 if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
                 {
                     Debug.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange);
-                    m_PrevBestDir = dir;
-                    return dir;
+                    //m_PrevBestDir = dir;
+                    //return dir;
                 }
 
                 obstacles.Add(hit);
@@ -154,7 +156,7 @@ public class ObstacleAvoidance : SteeringBehaviour
         // find the ray with the longest distance
         for (int i = 1; i < obstacles.Count; i++)
         {
-            if ((obstacles[i].point - transform.position).sqrMagnitude + 1f > 
+            if ((obstacles[i].point - transform.position).sqrMagnitude + 1f >
                 (m_PrevBestDir * m_ObstaclePerceptionRange - transform.position).sqrMagnitude)
             {
                 best = obstacles[i].point;

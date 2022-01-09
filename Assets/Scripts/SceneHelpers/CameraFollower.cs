@@ -15,7 +15,6 @@ public class CameraFollower : MonoBehaviour
     private void Start()
     {
         Bounds b;
-        b.e
         m_Units = FieldOfView.AllSteeringUnits;   
     }
 

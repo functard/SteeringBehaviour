@@ -26,6 +26,9 @@ public class Seperation : SteeringBehaviour
     {
         if (m_Debug)
         {
+            if (SteeringMotor == null)
+                return;
+
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, m_DesiredVelocity);
 
