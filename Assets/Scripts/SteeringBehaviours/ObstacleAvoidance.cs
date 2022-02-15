@@ -19,6 +19,7 @@ public class ObstacleAvoidance : SteeringBehaviour
 
     private Vector3[] m_ObstacleDirs;
 
+    private Vector3 obsDir;
     private const float ANGLE_INCREMENT = 1.61803f * Mathf.PI * 2;
 
     private void Start()
@@ -36,8 +37,8 @@ public class ObstacleAvoidance : SteeringBehaviour
             {
                 // scale inversely proportional to the distance
                 Vector3 bestDir = CalculateBestDirGrounded();
-                Debug.DrawRay(m_RayCastLocation.position, bestDir.normalized / bestDir.magnitude * SteeringMotor.MaxSpeed);
-                m_DesiredVelocity = bestDir.normalized /*/ bestDir.sqrMagnitude*/ * SteeringMotor.MaxSpeed;
+                bestDir = TestGrounded();
+                m_DesiredVelocity = bestDir.normalized / obsDir.sqrMagnitude /*/ bestDir.magnitude*/ * SteeringMotor.MaxSpeed;
                 return m_DesiredVelocity - SteeringMotor.Velocity;
             }
             return Vector3.zero;
@@ -100,11 +101,56 @@ public class ObstacleAvoidance : SteeringBehaviour
     private bool IsHeadingObstacle()
     {
         Ray ray = new Ray(m_RayCastLocation.position, SteeringMotor.Velocity.normalized);
+        RaycastHit hit;
         ray = new Ray(m_RayCastLocation.position, transform.forward.normalized);
-        if (Physics.SphereCast(ray, 1, m_ObstaclePerceptionRange, m_ObstacleLayer))
+        if (Physics.SphereCast(ray, 0.25f,out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
+        {
+            obsDir = hit.point - transform.position;
             return true;
+        }
 
         return false;
+    }
+
+    private Vector3 TestGrounded()
+    {
+        List<RaycastHit> obstacles = new List<RaycastHit>();
+        List<Vector3> freeDirs = new List<Vector3>();
+
+        //if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, m_ObstaclePerceptionRange, m_ObstacleLayer))
+        //{
+        //    return m_PrevBestDir;
+        //}
+
+        for (int i = m_RayCount - 1; i >= 0; i--)
+        {
+            Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
+
+            RaycastHit hit;
+            // if ray hits nothing
+            if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
+            {
+                freeDirs.Add(m_ObstacleDirs[i]);
+                //freeDirs.Add(hit.point - transform.position);
+                //return m_ObstacleDirs[i];
+            }
+            obstacles.Add(hit);
+        }
+        float best = -2f;
+        int index = 0;
+        for (int i = 0; i < freeDirs.Count; i++)
+        {
+            float value = Vector3.Dot(obsDir.normalized, freeDirs[i].normalized);
+            if (value > best)
+            {
+                best = value;
+                index = i;
+            }
+
+        }
+        //Debug.Log(index);
+        m_PrevBestDir = freeDirs[index];
+        return freeDirs[index]; 
     }
 
 
@@ -120,7 +166,7 @@ public class ObstacleAvoidance : SteeringBehaviour
         }
 
         List<RaycastHit> obstacles = new List<RaycastHit>();
-        for (int i = 0; i < m_RayCount; i++)
+        for (int i = m_RayCount - 1; i >= 0; i--)
         {
             Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
 
@@ -194,13 +240,15 @@ public class ObstacleAvoidance : SteeringBehaviour
             //Gizmos.DrawRay(m_RayCastLocation.position, m_PrevBestDir * m_ObstaclePerceptionRange);
             for (int i = 0; i < m_RayCount; i++)
             {
+                float t = (float)i / m_RayCount;
                 Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
                 RaycastHit hit;
-                Gizmos.color = Color.green;
+                Gizmos.color = new Color(0, t, 0);
+                //Gizmos.color = c
                 Gizmos.DrawRay(m_RayCastLocation.position, m_ObstacleDirs[i].normalized * m_ObstaclePerceptionRange);
                 if (Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
                 {
-                    Gizmos.color = Color.blue;
+                    //Gizmos.color = Color.blue;
                     Gizmos.DrawRay(m_RayCastLocation.position, m_ObstacleDirs[i].normalized * m_ObstaclePerceptionRange);
                 }
             }

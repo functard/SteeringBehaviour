@@ -12,9 +12,12 @@ public class Seperation : SteeringBehaviour
         Vector3 averagePosDiff = Vector3.zero;
         foreach (GameObject other in SteeringMotor.Fov.ObjectsInFov)
         {
+            if (other == this)
+                Debug.Log("dasdsa");    
             Vector3 diff = transform.position - other.transform.position;
+            //Debug.Log(diff.magnitude);
 
-            averagePosDiff += diff.normalized / diff.sqrMagnitude; // scale it inversely proportional to the distance sqr
+            averagePosDiff += diff.normalized; // scale it inversely proportional to the distance sqr
         }
         averagePosDiff /= SteeringMotor.Fov.ObjectsInFov.Count;
 
@@ -36,7 +39,7 @@ public class Seperation : SteeringBehaviour
             Gizmos.DrawLine(transform.position, m_DesiredVelocity - SteeringMotor.Velocity);
 
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, SteeringMotor.Velocity);
+            Gizmos.DrawLine(transform.position, transform.position + SteeringMotor.Velocity);
         }
     }
 }

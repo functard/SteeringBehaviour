@@ -5,7 +5,7 @@ using UnityEngine;
 public class FieldOfView : MonoBehaviour
 {
     private int m_FrameCounter;
-    private int m_FrameUpdateCount = 30;
+    private int m_FrameUpdateCount = 1;
 
     [SerializeField]
     private bool m_Debug = false;
