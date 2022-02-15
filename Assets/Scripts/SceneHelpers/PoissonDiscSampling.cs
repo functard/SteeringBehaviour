@@ -42,7 +42,6 @@ public class PoissonDiscSampling : MonoBehaviour
             }
         }
     }
-        
 
     private void Init()
     {
@@ -151,19 +150,19 @@ public class PoissonDiscSampling : MonoBehaviour
     }
 
 
-    //private void OnDrawGizmos()
-    //{
-    //    if (m_Debug)
-    //    {
-    //        if (m_Grid == null)
-    //        {
-    //            return;
-    //        }
-    //        foreach (var item in m_Grid)
-    //        {
-    //            Gizmos.DrawSphere(item, 1);
-    //        }
-    //    }
+    private void OnDrawGizmos()
+    {
+        if (m_Debug)
+        {
+            if (m_Grid == null)
+            {
+                return;
+            }
+            foreach (var item in m_Grid)
+            {
+                Gizmos.DrawSphere(item, 1);
+            }
+        }
 
-    //}
+    }
 }

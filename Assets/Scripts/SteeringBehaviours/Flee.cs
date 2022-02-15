@@ -1,11 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Flee : SteeringBehaviour
 {
     // targets to flee from
-    [SerializeField]
-    private Transform[] m_Targets;
+    [SerializeField] private List<Transform> m_Targets;
 
     [SerializeField]
     private bool m_PercieveUnitsGlobally = true;
@@ -34,7 +34,6 @@ public class Flee : SteeringBehaviour
             SteeringMotor.MaxSteeringForce = _weigth;
             m_DesiredVelocity = (_point - transform.position).normalized * SteeringMotor.MaxSpeed;
             SteeringMotor.AccumulateForce(-(m_DesiredVelocity - SteeringMotor.Velocity) * _weigth);
-            //SteeringMotor.SteringForceAccumulation += -(m_DesiredVelocity - SteeringMotor.Velocity) * _weigth;
             time += Time.deltaTime;
             yield return null;
         }
@@ -45,13 +44,16 @@ public class Flee : SteeringBehaviour
     /// </summary>
     /// <param name="_targets">Targets to flee from.</param>
     /// <returns>Steering force</returns>
-    private Vector3 CalculateSteeringBehaviourGlobal(Transform[] _targets)
+    private Vector3 CalculateSteeringBehaviourGlobal(List<Transform> _targets)
     {
         Vector3 sum = Vector3.zero;
         foreach (Transform target in _targets)
         {
             if (!target.gameObject.activeSelf)
                 continue;
+
+            //if ((transform.position - target.position).sqrMagnitude > SteeringMotor.Fov.PerceptionRadius * SteeringMotor.Fov.PerceptionRadius)
+            //    continue;
 
             m_DesiredVelocity = (target.position - transform.position).normalized * SteeringMotor.MaxSpeed;
 
@@ -66,7 +68,7 @@ public class Flee : SteeringBehaviour
     /// </summary>
     /// <param name="_targets">Targets to compare in FOV.</param>
     /// <returns>Steering force</returns>
-    private Vector3 CalculateSteeringBehaviourFOV(Transform[] _targets)
+    private Vector3 CalculateSteeringBehaviourFOV(List<Transform> _targets)
     {
         Vector3 sum = Vector3.zero;
         foreach (Transform target in _targets)
@@ -78,6 +80,21 @@ public class Flee : SteeringBehaviour
             sum += -(m_DesiredVelocity - SteeringMotor.Velocity);
         }
         return sum;
+    }
+
+    public void SetTarget(Transform _target)
+    {
+        m_Targets.Clear();
+        m_Targets.Add(_target);
+    }
+
+    public void SetTarget(List<Transform> _targets)
+    {
+        m_Targets.Clear();
+        foreach (var target in _targets)
+        {
+            m_Targets.Add(target);
+        }
     }
 
     private void OnDrawGizmos()

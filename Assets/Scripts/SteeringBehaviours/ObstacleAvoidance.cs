@@ -17,19 +17,27 @@ public class ObstacleAvoidance : SteeringBehaviour
 
     private Vector3 m_PrevBestDir;
 
+    private Vector3[] m_ObstacleDirs;
+
+    private const float ANGLE_INCREMENT = 1.61803f * Mathf.PI * 2;
+
     private void Start()
     {
         m_PrevBestDir = transform.forward;
+        InitObstacleDirs();
     }
+
+
     public override Vector3 CalculateSteeringBehaviour()
     {
-        CalculateBestDirFlying();
         if (!SteeringMotor.Is3D)
         {
             if (IsHeadingObstacle())
             {
                 // scale inversely proportional to the distance
-                m_DesiredVelocity = CalculateBestDirGrounded().normalized / CalculateBestDirGrounded().magnitude * SteeringMotor.MaxSpeed;
+                Vector3 bestDir = CalculateBestDirGrounded();
+                Debug.DrawRay(m_RayCastLocation.position, bestDir.normalized / bestDir.magnitude * SteeringMotor.MaxSpeed);
+                m_DesiredVelocity = bestDir.normalized /*/ bestDir.sqrMagnitude*/ * SteeringMotor.MaxSpeed;
                 return m_DesiredVelocity - SteeringMotor.Velocity;
             }
             return Vector3.zero;
@@ -39,21 +47,66 @@ public class ObstacleAvoidance : SteeringBehaviour
             if (IsHeadingObstacle())
             {
                 // scale inversely proportional to the distance
-                m_DesiredVelocity = CalculateBestDirFlying().normalized / CalculateBestDirGrounded().magnitude * SteeringMotor.MaxSpeed;
+                Vector3 bestDir = CalculateBestDirFlying();
+                m_DesiredVelocity = bestDir.normalized / bestDir.magnitude * SteeringMotor.MaxSpeed;
                 return m_DesiredVelocity - SteeringMotor.Velocity;
             }
             return Vector3.zero;
+        }
+    }
+    private void InitObstacleDirs()
+    {
+        m_ObstacleDirs = new Vector3[m_RayCount];
+        if (!SteeringMotor.Is3D)
+        {
+            for (int i = 0; i < m_RayCount; i++)
+            {
+                float t = (float)i / (m_RayCount - 1);
+
+                float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
+
+                // angle in degree
+                float angle = t * viewAngle - viewAngle / 2 + transform.eulerAngles.y;
+
+                // angle in radians
+                angle *= Mathf.Deg2Rad;
+
+                float x = Mathf.Sin(angle) * Mathf.Rad2Deg;
+                float z = Mathf.Cos(angle) * Mathf.Rad2Deg;
+                m_ObstacleDirs[i] = new Vector3(x, 0, z);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < m_RayCount; i++)
+            {
+                float t = (float)i / (m_RayCount - 1);
+                float inclination = Mathf.Acos(1 - 2 * t);
+                float azimuth = ANGLE_INCREMENT * i;
+
+                float x = Mathf.Sin(inclination) * Mathf.Cos(azimuth);
+                float y = Mathf.Sin(inclination) * Mathf.Sin(azimuth);
+                float z = Mathf.Cos(inclination);
+
+                float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
+                if (Vector3.Angle(m_ObstacleDirs[i], transform.forward) < viewAngle / 2)
+                {
+                    m_ObstacleDirs[i] = new Vector3(x, y, z);
+                }
+            }
         }
     }
 
     private bool IsHeadingObstacle()
     {
         Ray ray = new Ray(m_RayCastLocation.position, SteeringMotor.Velocity.normalized);
+        ray = new Ray(m_RayCastLocation.position, transform.forward.normalized);
         if (Physics.SphereCast(ray, 1, m_ObstaclePerceptionRange, m_ObstacleLayer))
             return true;
 
         return false;
     }
+
 
     /// <summary>
     /// Calculates optimal direction 
@@ -69,29 +122,15 @@ public class ObstacleAvoidance : SteeringBehaviour
         List<RaycastHit> obstacles = new List<RaycastHit>();
         for (int i = 0; i < m_RayCount; i++)
         {
-            float t = (float)i / (m_RayCount - 1);
-
-            float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
-
-            // angle in degree
-            float angle = t * viewAngle - viewAngle / 2 + transform.eulerAngles.y;
-
-            // angle in radians
-            angle *= Mathf.Deg2Rad;
-
-            float x = Mathf.Sin(angle) * Mathf.Rad2Deg;
-            float z = Mathf.Cos(angle) * Mathf.Rad2Deg;
-            Vector3 dir = new Vector3(x, 0, z);
-
-            Ray ray = new Ray(m_RayCastLocation.position, dir.normalized);
+            Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
 
             RaycastHit hit;
 
             // if ray hits nothing
             if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
             {
-                m_PrevBestDir = dir;
-                return dir;
+                m_PrevBestDir = m_ObstacleDirs[i];
+                return m_ObstacleDirs[i];
             }
             obstacles.Add(hit);
         }
@@ -110,54 +149,36 @@ public class ObstacleAvoidance : SteeringBehaviour
 
     private Vector3 CalculateBestDirFlying()
     {
-        List<RaycastHit> obstacles = new List<RaycastHit>();
-
-        float goldenRatio = (1 + Mathf.Sqrt(5)) / 2;
-        float viewAngle = SteeringMotor.Fov.FovType == FieldOfView.EFOVType.ANGULAR ? SteeringMotor.Fov.ViewAngle : 360;
-        float angleIncrement = /*Mathf.PI * 2*/ (Mathf.Deg2Rad * viewAngle) * goldenRatio;
-
-        for (int i = 0; i < m_RayCount; i++)
+        Ray r = new Ray(m_RayCastLocation.position, m_PrevBestDir.normalized);
+        if (!Physics.SphereCast(r, 1f, m_ObstaclePerceptionRange, m_ObstacleLayer))
         {
-            float t = (float)i / (m_RayCount - 1);
-            float inclination = Mathf.Acos(1 - 2 * t);
-            float azimuth = angleIncrement * i;
-
-            float x = Mathf.Sin(inclination) * Mathf.Cos(azimuth);
-            float y = Mathf.Sin(inclination) * Mathf.Sin(azimuth);
-            float z = Mathf.Cos(inclination);
-
-            Vector3 dir = new Vector3(x, y, z) * m_ObstaclePerceptionRange;
-
-
-            // TO DO : optimize angle check
-            //if (Vector3.Angle(dir, transform.forward) < viewAngle / 2)
-            {
-                Ray ray = new Ray(m_RayCastLocation.position, dir.normalized);
-                RaycastHit hit;
-
-
-                //if (!Physics.Raycast(m_RayCastLocation.position, m_PrevBestDir, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
-                //{
-                //    return m_PrevBestDir.normalized;
-                //}
-
-                // if ray hits nothing
-                if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
-                {
-                    Debug.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange);
-                    //m_PrevBestDir = dir;
-                    //return dir;
-                }
-
-                obstacles.Add(hit);
-            }
+            //Debug.DrawRay(m_RayCastLocation.position, m_PrevBestDir);
+            return m_PrevBestDir;
         }
-        Vector3 best = m_PrevBestDir * m_ObstaclePerceptionRange;
+
+        List<RaycastHit> obstacles = new List<RaycastHit>();
+        for (int i = 0; i < m_ObstacleDirs.Length; i++)
+        {
+            Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
+            RaycastHit hit;
+
+            // if ray hits nothing
+            if (!Physics.SphereCast(ray, 1f, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
+            {
+                //Debug.DrawRay(m_RayCastLocation.position, m_ObstacleDirs[i].normalized * m_ObstaclePerceptionRange);
+                m_PrevBestDir = m_ObstacleDirs[i] * m_ObstaclePerceptionRange;
+                return m_ObstacleDirs[i];
+            }
+
+            obstacles.Add(hit);
+        }
+        Debug.Log("asd");
+        Vector3 best = Vector3.zero;
         // find the ray with the longest distance
         for (int i = 1; i < obstacles.Count; i++)
         {
             if ((obstacles[i].point - transform.position).sqrMagnitude + 1f >
-                (m_PrevBestDir * m_ObstaclePerceptionRange - transform.position).sqrMagnitude)
+                (best.normalized * m_ObstaclePerceptionRange - transform.position).sqrMagnitude)
             {
                 best = obstacles[i].point;
             }
@@ -169,27 +190,18 @@ public class ObstacleAvoidance : SteeringBehaviour
     {
         if (m_Debug && SteeringMotor != null)
         {
+            Gizmos.color = Color.red;
+            //Gizmos.DrawRay(m_RayCastLocation.position, m_PrevBestDir * m_ObstaclePerceptionRange);
             for (int i = 0; i < m_RayCount; i++)
             {
-                float t = (float)i / (m_RayCount - 1);
-
-                // angle in degree
-                float angle = t * SteeringMotor.Fov.ViewAngle - SteeringMotor.Fov.ViewAngle / 2 + transform.eulerAngles.y;
-
-                // angle in radians
-                angle *= Mathf.Deg2Rad;
-
-                float x = Mathf.Sin(angle) * Mathf.Rad2Deg;
-                float z = Mathf.Cos(angle) * Mathf.Rad2Deg;
-                Vector3 dir = new Vector3(x, 0, z);
-                Ray ray = new Ray(m_RayCastLocation.position, dir);
+                Ray ray = new Ray(m_RayCastLocation.position, m_ObstacleDirs[i].normalized);
                 RaycastHit hit;
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange);
-                if (!Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
+                Gizmos.DrawRay(m_RayCastLocation.position, m_ObstacleDirs[i].normalized * m_ObstaclePerceptionRange);
+                if (Physics.Raycast(ray, out hit, m_ObstaclePerceptionRange, m_ObstacleLayer))
                 {
                     Gizmos.color = Color.blue;
-                    Gizmos.DrawRay(m_RayCastLocation.position, dir.normalized * m_ObstaclePerceptionRange);
+                    Gizmos.DrawRay(m_RayCastLocation.position, m_ObstacleDirs[i].normalized * m_ObstaclePerceptionRange);
                 }
             }
         }

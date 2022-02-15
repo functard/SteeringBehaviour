@@ -45,6 +45,9 @@ public class Motor : MonoBehaviour
     [SerializeField]
     private bool m_Is3D;
 
+    [SerializeField]
+    private bool m_SetDir = true;
+
     public bool Is3D { get { return m_Is3D; } }
 
     private void Awake()
@@ -55,20 +58,28 @@ public class Motor : MonoBehaviour
     {
         FieldOfView.AllSteeringUnits.Add(this);
         if (m_RandomizeDirOnStart)
+            RandomizeDirection();
+
+    }
+
+    private void RandomizeDirection()
+    {
+        if (m_Is3D)
+            transform.forward = Random.insideUnitSphere;
+        else
         {
-            if (m_Is3D)
-                transform.forward = Random.insideUnitSphere;
-            else
-            {
-                float random = Random.Range(0, 360);
-                transform.rotation
-                = Quaternion.Euler(transform.rotation.eulerAngles.x, random, transform.rotation.eulerAngles.z);
-            }
+            float random = Random.Range(0, 360);
+            transform.rotation
+            = Quaternion.Euler(transform.rotation.eulerAngles.x, random, transform.rotation.eulerAngles.z);
         }
     }
 
     private void Update()
     {
+        // for testig
+        if (Input.GetKeyDown(KeyCode.Space))
+            transform.position = Vector3.zero;
+
         m_Acceleration = Vector3.zero;
         ApplySteeringBehaviors();
 
@@ -106,6 +117,9 @@ public class Motor : MonoBehaviour
 
     private void SetDirection()
     {
+        if (!m_SetDir)
+            return;
+
         if (m_Velocity != Vector3.zero && m_Velocity.magnitude >= 0.2f)
             transform.forward = Vector3.SmoothDamp(transform.forward, m_Velocity, ref m_TurnRateVel, m_TurnRate);
     }
@@ -117,6 +131,7 @@ public class Motor : MonoBehaviour
             if (this == null)
                 return;
 
+            Gizmos.color = Color.cyan;
             Gizmos.DrawRay(transform.position, m_Velocity);
         }
     }

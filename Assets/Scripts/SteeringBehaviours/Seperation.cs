@@ -14,7 +14,7 @@ public class Seperation : SteeringBehaviour
         {
             Vector3 diff = transform.position - other.transform.position;
 
-            averagePosDiff += diff.normalized / diff.magnitude; // scale it inversely proportional to the distance
+            averagePosDiff += diff.normalized / diff.sqrMagnitude; // scale it inversely proportional to the distance sqr
         }
         averagePosDiff /= SteeringMotor.Fov.ObjectsInFov.Count;
 

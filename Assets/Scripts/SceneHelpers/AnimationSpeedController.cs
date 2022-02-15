@@ -5,8 +5,8 @@ using UnityEngine;
 public class AnimationSpeedController : MonoBehaviour
 {
     [SerializeField] private float m_Scale = 1;
-    private Motor m_Motor;
 
+    private Motor m_Motor;
     private Animator m_Animator;
     private void Awake()
     {

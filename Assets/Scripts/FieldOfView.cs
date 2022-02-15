@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    private int m_FrameCounter;
+    private int m_FrameUpdateCount = 30;
+
     [SerializeField]
     private bool m_Debug = false;
 
@@ -40,12 +43,13 @@ public class FieldOfView : MonoBehaviour
 
     public float ViewAngle { get { return m_ViewAngle; } }
 
-    private List<GameObject> m_objectsInFov = new List<GameObject>();
 
     public float PerceptionRadius
     {
         get { return m_PerceptionRadius; }
     }
+
+    private List<GameObject> m_objectsInFov = new List<GameObject>();
     public List<GameObject> ObjectsInFov
     {
         get { return m_objectsInFov; }
@@ -53,10 +57,13 @@ public class FieldOfView : MonoBehaviour
 
     private void Update()
     {
-        m_objectsInFov = GetObjectsInFOV();
+        if (m_FrameCounter > m_FrameUpdateCount)
+            m_objectsInFov = GetObjectsInFOV();
+
+        m_FrameCounter++;
     }
 
-    List<GameObject> GetObjectsInFOV()
+    private List<GameObject> GetObjectsInFOV()
     {
         if (m_PerceptionType == EPERCEPTIONTYPE.COLLIDER)
         {
@@ -147,6 +154,9 @@ public class FieldOfView : MonoBehaviour
     {
         if (m_Debug)
         {
+            if (this == null)
+                return;
+
             if (m_FovType == EFOVType.RADIAL)
                 Gizmos.DrawWireSphere(transform.position, m_PerceptionRadius);
 

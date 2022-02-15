@@ -53,6 +53,7 @@ public class Path : MonoBehaviour
     {
         if (m_Debug)
         {
+
             for (int i = 1; i < m_PathNodes.Count; i++)
             {
                 Gizmos.color = Color.white;

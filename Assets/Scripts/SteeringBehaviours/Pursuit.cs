@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pursuit : SteeringBehaviour
 {
+    [SerializeField] private float m_FuturePredictionCoefficient = 1f;
     [SerializeField] private Motor m_Target;
 
     private bool m_PercieveUnitsGlobally = true;
@@ -24,10 +25,9 @@ public class Pursuit : SteeringBehaviour
     private Vector3 CalculateSteeringBehaviourGlobally()
     {
         float dist = Vector3.Distance(m_Target.transform.position, transform.position);
-        float timeAhead = dist / SteeringMotor.MaxSpeed;
+        float timeAhead = dist / SteeringMotor.MaxSpeed * m_FuturePredictionCoefficient;
 
         Vector3 futurePos = m_Target.transform.position + m_Target.Velocity * timeAhead;
-
 
         m_DesiredVelocity = (futurePos - transform.position).normalized * SteeringMotor.MaxSpeed;
         return m_DesiredVelocity - SteeringMotor.Velocity;
@@ -57,6 +57,9 @@ public class Pursuit : SteeringBehaviour
     {
         if (m_Debug)
         {
+            if (SteeringMotor == null)
+                return;
+
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, m_DesiredVelocity);
 

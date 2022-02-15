@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1021354293}
   m_ObstaclePerceptionRange: 15
@@ -610,7 +610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1324398874}
   m_ObstaclePerceptionRange: 15
@@ -842,7 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 413599401}
   m_ObstaclePerceptionRange: 15
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1940139572}
   m_ObstaclePerceptionRange: 15
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1381123129}
   m_ObstaclePerceptionRange: 15
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 116456563}
   m_ObstaclePerceptionRange: 15
@@ -1660,7 +1660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 78671291}
   m_ObstaclePerceptionRange: 15
@@ -1674,49 +1674,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1878958313}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &664033329
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 664033331}
-  - component: {fileID: 664033330}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &664033330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664033329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e5e71350f8306747bead5716d4143d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &664033331
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 664033329}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.350048, y: 35.466225, z: 10.378296}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &683117685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1458835835161209607, guid: 85fd30764a8490b4fb7b3ba7da4e3a8a,
@@ -1767,7 +1724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1564115765}
   m_ObstaclePerceptionRange: 15
@@ -1831,7 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1103216961}
   m_ObstaclePerceptionRange: 15
@@ -1984,7 +1941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 553911234}
   m_ObstaclePerceptionRange: 15
@@ -2595,6 +2552,7 @@ GameObject:
   - component: {fileID: 1164053671}
   - component: {fileID: 1164053670}
   - component: {fileID: 1164053673}
+  - component: {fileID: 1164053674}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2660,13 +2618,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164053669}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.69840115, y: 0.11061592, z: 0.11061592, w: 0.69840115}
   m_LocalPosition: {x: 0, y: 5.84, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 72, y: 90, z: 90}
 --- !u!114 &1164053673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2699,6 +2657,19 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1164053674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164053669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5e71350f8306747bead5716d4143d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinMaxCamDist: {x: 10, y: 175}
 --- !u!1 &1221563314 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1458835835161209607, guid: 85fd30764a8490b4fb7b3ba7da4e3a8a,
@@ -2749,7 +2720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1756678145}
   m_ObstaclePerceptionRange: 15
@@ -3215,7 +3186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1109447080}
   m_ObstaclePerceptionRange: 15
@@ -3279,7 +3250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1990703854}
   m_ObstaclePerceptionRange: 15
@@ -3433,7 +3404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 900051419}
   m_ObstaclePerceptionRange: 15
@@ -3749,7 +3720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 363410723}
   m_ObstaclePerceptionRange: 15
@@ -3819,7 +3790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 2090741559}
   m_ObstaclePerceptionRange: 15
@@ -3913,7 +3884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1420772418}
   m_ObstaclePerceptionRange: 15
@@ -4061,7 +4032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1255340216}
   m_ObstaclePerceptionRange: 15
@@ -4125,7 +4096,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1231850345}
   m_ObstaclePerceptionRange: 15
@@ -4459,7 +4430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837e4cdba62a66429ab6f848a394ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BehaviourWeigth: 1.75
+  m_BehaviourWeigth: 3
   m_Debug: 0
   m_RayCastLocation: {fileID: 1579900102}
   m_ObstaclePerceptionRange: 15

@@ -16,23 +16,21 @@ public class PathFollowing : SteeringBehaviour
 
     private int m_PathIndex = 0;
 
-
     // TODO : remove path creation logic from this class
     public override Vector3 CalculateSteeringBehaviour()
     {
         if (m_PathNodes.GetPath().Count == 0 || (m_IsCompleted && !m_Loop))
         {
-            Debug.Log("asd0");
             return Vector3.zero;
         }
 
         Vector3 currPathNode = m_PathNodes.GetNodeAt(m_PathIndex);
 
         float sqrDist = (currPathNode - transform.position).sqrMagnitude;
-        if (sqrDist * sqrDist < m_ReachDistTreshold)
+        //float dist = (currPathNode - transform.position).magnitude;
+        if (sqrDist < m_ReachDistTreshold * m_ReachDistTreshold)
         {
             m_PathIndex++;
-            Debug.Log("reached");
         }
         if (m_PathIndex >= m_PathNodes.GetPath().Count)
         {
@@ -45,7 +43,6 @@ public class PathFollowing : SteeringBehaviour
             if (m_LapCount % 2 == 1)
                 m_PathNodes.GetPath().Reverse();
         }
-        Debug.Log(m_PathIndex);
         return Seek(m_PathNodes.GetNodeAt(m_PathIndex));
     }
 

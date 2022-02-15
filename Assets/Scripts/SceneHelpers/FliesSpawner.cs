@@ -11,17 +11,15 @@ public class FliesSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int i = 0;
-        int spawnInterval = m_Path.GetPath().Count / m_Flies.Length;
-        foreach (var flies in m_Flies)
-        {
-            flies.transform.position = m_Path.GetNodeAt(i);
-            i += spawnInterval;
-        }
+        Spawn();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        Spawn();
+    }
+    private void Spawn()
     {
         int i = 0;
         int spawnInterval = m_Path.GetPath().Count / m_Flies.Length;

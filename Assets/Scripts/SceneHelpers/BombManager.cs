@@ -56,6 +56,9 @@ public class BombManager : MonoBehaviour
 
     private IEnumerator SpawnRandomExplosions(float _interval = 5f)
     {
+        if (m_Character == null)
+            yield break;
+
         while (true)
         {
             yield return new WaitForSeconds(_interval);

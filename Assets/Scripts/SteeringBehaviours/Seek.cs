@@ -23,7 +23,7 @@ public class Seek : SteeringBehaviour
         m_Targets.Add(_target);
     }
 
-    public void SetTargets(List<Transform> _targets)
+    public void SetTarget(List<Transform> _targets)
     {
         m_Targets.Clear();
         foreach (var target in _targets)
